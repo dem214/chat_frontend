@@ -1,30 +1,28 @@
-import { useState } from "react";
 import ContactCard, { ContactInfo } from "./contact";
+import "./contact.scss";
 
 
 export interface ContactListProps {
     contacts: ContactInfo[],
+    pickedContact: string | null
     selectContact: (contactID: string) => void
 }
 
 export default function ContactList(props: ContactListProps): JSX.Element {
 
     const contacts: ContactInfo[] = props.contacts
-
-    const [pickedContact, changePickedContact] = useState<string|null>(null)
     
     function contactClickHandler(contact: ContactInfo) {
         return function clickHandler() {
-            changePickedContact(prevContact => {return contact.id})
             props.selectContact(contact.id)
         }
-
     }
 
     //  TODO Up picked contact
 
     function isPicked(contact:ContactInfo) {
-        return contact.id === pickedContact
+        if (props.pickedContact === null) {return false}
+        return contact.id === props.pickedContact
     }
 
     return (
